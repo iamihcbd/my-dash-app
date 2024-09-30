@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 
 # Step 1: Load the dataset
-df = pd.read_csv('gdp_1960_2020.csv')  # Ensure this file is in the same folder as app.py
+df = pd.read_csv('gdp_1960_2020.csv')  # Make sure this file is in the same directory as app.py
 
 # Step 2: Create a Dash app
 app = dash.Dash(__name__)
@@ -28,6 +28,9 @@ app.layout = html.Div([
     )
 ])
 
-# Step 4: Run the Dash app
+# Step 4: Expose the Flask server for deployment with gunicorn
+server = app.server
+
+# Step 5: Run the Dash app
 if __name__ == '__main__':
     app.run_server(debug=True)
