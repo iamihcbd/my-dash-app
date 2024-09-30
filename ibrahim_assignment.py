@@ -1,4 +1,25 @@
-{
+import pandas as pd
+
+# Define the function to prepare the data
+def prepare_data(file_path):
+    """
+    Function to load and process the CSV data.
+    
+    :param file_path: Path to the CSV file
+    :return: A pandas DataFrame with the processed data
+    """
+    try:
+        # Load the dataset
+        df = pd.read_csv(file_path)
+        
+        # You can add any data processing steps here
+        # Example: data cleaning, filtering, etc.
+        
+        return df  # Return the DataFrame
+    except Exception as e:
+        print(f"Error occurred while loading data: {e}")
+        return None
+     {
  "cells": [
   {
    "cell_type": "code",
