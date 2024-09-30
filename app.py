@@ -25,3 +25,4 @@ server = app.server
 # Run the app locally for development
 if __name__ == "__main__":
     app.run_server(debug=True)
+    
