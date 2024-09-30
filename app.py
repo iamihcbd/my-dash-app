@@ -15,7 +15,7 @@ app.layout = html.Div([
     html.H1("gdp of All Countries (1960-2020)"),
     dcc.Graph(
         id='gdp-scatter',
-        figure=px.scatter(df, x='year', y='gdp', color='country Name', title="gdp Over the years")
+        figure=px.scatter(df, x='year', y='gdp', color='country', title="gdp Over the years")
     )
 ])
 
