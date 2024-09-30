@@ -2,7 +2,7 @@ import dash
 from dash import dcc, html
 import plotly.express as px
 import pandas as pd
-from ibrahim_assignment import prepare_data  # Import the function to process data
+from ibrahim_assignment import prepare_data # Import the function to process data
 
 # Initialize Dash app
 app = dash.Dash(__name__)
