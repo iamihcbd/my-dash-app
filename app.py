@@ -12,10 +12,10 @@ df = prepare_data('gdp_1960_2020.csv')  # Assuming this function processes your 
 
 # Define the layout of the app
 app.layout = html.Div([
-    html.H1("GDP of All Countries (1960-2020)"),
+    html.H1("gdp of All Countries (1960-2020)"),
     dcc.Graph(
         id='gdp-scatter',
-        figure=px.scatter(df, x='Year', y='GDP', color='Country Name', title="GDP Over the Years")
+        figure=px.scatter(df, x='year', y='gdp', color='country Name', title="gdp Over the years")
     )
 ])
 
