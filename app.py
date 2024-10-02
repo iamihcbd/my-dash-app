@@ -1,7 +1,6 @@
 import dash
 from dash import dcc, html
 import plotly.express as px
-import pandas as pd
 from ibrahim_assignment import prepare_data
 
 # Initialize Dash app
@@ -10,27 +9,31 @@ app = dash.Dash(__name__)
 # Use the function to load and prepare data
 df = prepare_data('gdp_1960_2020.csv')
 
-# Create pie chart for region distribution
-pie_chart_fig = px.pie(df, names='state', title='GDP Distribution by Region')
+# Optionally filter data to improve performance (uncomment to limit data)
+# df = df[df['country'].isin(['the United States', 'China', 'Japan', 'Germany', 'India'])]
 
-# Create bar chart for country-wise GDP comparison
-bar_chart_fig = px.bar(df, x='country', y='gdp', title='GDP Comparison by Country')
+# Adjust GDP values to make bubble sizes more manageable (normalizing)
+df['gdp_scaled'] = df['gdp'] / 1e9  # Scale GDP by billions for better bubble size management
 
-# Create scatter plot for GDP over the years
-scatter_fig = px.scatter(df, x='year', y='gdp', title="GDP Over the Years", labels={'year': 'Year', 'gdp': 'GDP'})
-
-# Define the layout of the app with all three graphs
+# Define the layout of the app
 app.layout = html.Div([
-    html.H1("GDP Visualizations (1960-2020)"),
+    html.H1("GDP of All Countries (1960-2020)"),
     
-    # Pie chart
-    dcc.Graph(id='pie-chart', figure=pie_chart_fig),
-    
-    # Bar chart
-    dcc.Graph(id='bar-chart', figure=bar_chart_fig),
-    
-    # Scatter plot
-    dcc.Graph(id='gdp-scatter', figure=scatter_fig)
+    # Interactive scatter plot with animation
+    dcc.Graph(
+        id='gdp-scatter',
+        figure=px.scatter(df, x='year', y='gdp_scaled', color='country', 
+                          title="GDP Over the Years (scaled in billions)",
+                          labels={'year': 'Year', 'gdp_scaled': 'GDP (in billions)', 'country': 'Country'},
+                          hover_name='country',
+                          size='gdp_scaled',  # Adjust bubble size based on scaled GDP
+                          size_max=60,  # Adjust max size to avoid extreme differences
+                          animation_frame='year',
+                          animation_group='country',
+                          range_y=[0, df['gdp_scaled'].max() + 5000],  # Adjusted y-axis range
+                          height=600  # Increase plot height for better visibility
+                          )
+    )
 ])
 
 # Expose the Flask server for deployment
