@@ -2,14 +2,13 @@ import dash
 from dash import dcc, html
 import plotly.express as px
 import pandas as pd
-import numpy as np  # For log scaling if needed
-from ibrahim_assignment import prepare_data
+import numpy as np
 
 # Initialize Dash app
 app = dash.Dash(__name__)
 
-# Load and prepare data
-df = prepare_data('gdp_1960_2020.csv')
+# Load the CSV file directly
+df = pd.read_csv('gdp_1960_2020.csv')  # Ensure this file is in the same directory as your app.py
 
 # 1. Pie Chart for Region Distribution
 pie_chart_fig = px.pie(df, names='state', title='GDP Distribution by Region')
@@ -18,7 +17,7 @@ pie_chart_fig = px.pie(df, names='state', title='GDP Distribution by Region')
 bar_chart_fig = px.bar(df, x='country', y='gdp', title='GDP Comparison by Country')
 
 # 3. Scatter Plot for GDP Over the Years
-# You can apply scaling if needed. Example: Logarithmic scaling for better visualization
+# Apply log scaling to GDP for better visualization
 df['gdp_scaled'] = df['gdp'].apply(lambda x: np.log10(x) if x > 0 else 0)
 
 scatter_fig = px.scatter(df, x='year', y='gdp_scaled', color='country', 
